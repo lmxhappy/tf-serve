@@ -65,3 +65,9 @@ for prediction, expect in zip(predictions, expected):
     probability = prediction['probabilities'][class_id]
     print('Prediction is "{}" ({:.1f}%), expected "{}"'.format(
         SPECIES[class_id], 100 * probability, expect))
+
+# export model
+feature_spec = tf.feature_column.make_parse_example_spec(feature_columns)
+serving_input_receiver_fn = tf.estimator.export.build_parsing_serving_input_receiver_fn(feature_spec)
+export_dir = classifier.export_savedmodel('export', serving_input_receiver_fn)
+print('Exported to {}'.format(export_dir))
