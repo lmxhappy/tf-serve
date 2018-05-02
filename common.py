@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import pandas as pd
 import tensorflow as tf
 
 def get_export_dir():
@@ -26,6 +27,15 @@ def create_examples(inputs):
         )
         examples.append(example.SerializeToString())
     return examples
+
+
+def get_test_inputs():
+    return  pd.DataFrame({
+        'SepalLength': [5.1, 5.9, 6.9],
+        'SepalWidth': [3.3, 3.0, 3.1],
+        'PetalLength': [1.7, 4.2, 5.4],
+        'PetalWidth': [0.5, 1.5, 2.1],
+    })
 
 
 def assemble_result(inputs, predictions):

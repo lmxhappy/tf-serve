@@ -2,6 +2,9 @@
 __pycache__/
 .py[cod]
 venv/
-venv2.7/
 
+# Editor
+.vscode/
+
+# TensorFlow
 /export/
