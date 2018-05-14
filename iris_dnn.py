@@ -31,8 +31,17 @@ def eval_input_fn(features, labels, batch_size):
     return dataset
 
 # create classifier
+
+# feature columns
+# [
+#     _NumericColumn(key='SepalLength', shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None),
+#     _NumericColumn(key='SepalWidth', shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None),
+#     _NumericColumn(key='PetalLength', shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None),
+#     _NumericColumn(key='PetalWidth', shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None)
+# ]
 feature_columns = [tf.feature_column.numeric_column(key=key)
                    for key in train_x.keys()]
+
 classifier = tf.estimator.DNNClassifier(
     feature_columns=feature_columns,
     hidden_units=[10, 10],
@@ -67,6 +76,14 @@ for prediction, expect in zip(predictions, expected):
         SPECIES[class_id], 100 * probability, expect))
 
 # export model
+
+# feature specification
+# {
+#     'SepalLength': FixedLenFeature(shape=(1,), dtype=tf.float32, default_value=None),
+#     'SepalWidth': FixedLenFeature(shape=(1,), dtype=tf.float32, default_value=None),
+#     'PetalLength': FixedLenFeature(shape=(1,), dtype=tf.float32, default_value=None),
+#     'PetalWidth': FixedLenFeature(shape=(1,), dtype=tf.float32, default_value=None)
+# }
 feature_spec = tf.feature_column.make_parse_example_spec(feature_columns)
 serving_input_receiver_fn = tf.estimator.export.build_parsing_serving_input_receiver_fn(feature_spec)
 export_dir = classifier.export_savedmodel('export', serving_input_receiver_fn)

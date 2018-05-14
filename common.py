@@ -3,6 +3,8 @@
 import os
 import pandas as pd
 import tensorflow as tf
+from collections import OrderedDict
+
 
 def get_export_dir():
     models = [int(i) for i in os.listdir('export')]
@@ -30,12 +32,13 @@ def create_examples(inputs):
 
 
 def get_test_inputs():
-    return  pd.DataFrame({
-        'SepalLength': [5.1, 5.9, 6.9],
-        'SepalWidth': [3.3, 3.0, 3.1],
-        'PetalLength': [1.7, 4.2, 5.4],
-        'PetalWidth': [0.5, 1.5, 2.1],
-    })
+    data = OrderedDict([
+        ['SepalLength', [5.1, 5.9, 6.9]],
+        ['SepalWidth', [3.3, 3.0, 3.1]],
+        ['PetalLength', [1.7, 4.2, 5.4]],
+        ['PetalWidth', [0.5, 1.5, 2.1]],
+    ])
+    return  pd.DataFrame(data, columns=data.keys())
 
 
 def assemble_result(inputs, predictions):
