@@ -1,4 +1,4 @@
-# Various Ways to Serve TensorFlow Model
+# Serve TensforFlow Estimator with SavedModel
 
 Source code for my blog post: [English][1], [中文][2]
 
