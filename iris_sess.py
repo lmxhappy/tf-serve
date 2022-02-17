@@ -3,7 +3,7 @@
 import pandas as pd
 import tensorflow as tf
 from tensorflow.python.tools import saved_model_utils
-from tensorflow.contrib.saved_model.python.saved_model import signature_def_utils
+from tensorflow.python.saved_model import signature_def_utils
 import common
 
 tag = tf.saved_model.tag_constants.SERVING
@@ -14,7 +14,8 @@ with tf.Session() as sess:
     tf.saved_model.loader.load(sess, [tag], export_dir)
 
     meta_graph_def = saved_model_utils.get_meta_graph_def(export_dir, tag)
-    predict_signature_def = signature_def_utils.get_signature_def_by_key(meta_graph_def, signature_def)
+    # predict_signature_def = signature_def_utils.get_signature_def_by_key(meta_graph_def, signature_def)
+    predict_signature_def = meta_graph_def.signature_def[signature_def]
 
     inputs = common.get_test_inputs()
     examples = common.create_examples(inputs)
